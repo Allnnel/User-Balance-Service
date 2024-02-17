@@ -19,15 +19,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User save(User user) {
+    public void save(User user) {
         if (userRepository.findByLogin(user.getLogin()) != null) {
             throw new DuplicateUserException();
         }
-       User savedUser = userRepository.save(user);
-       if (savedUser == null) {
-           throw new UserNotFoundException();
-       }
-       return savedUser;
+       userRepository.save(user);
     }
 
     @Override

@@ -4,7 +4,7 @@ import com.example.model.Balance;
 
 public interface BalanceService  {
 
-    Balance save(Balance balance);
+    void save(Balance balance);
     void delete(Balance balance);
 
     Balance findById(long id);

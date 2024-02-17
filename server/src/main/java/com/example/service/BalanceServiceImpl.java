@@ -21,15 +21,11 @@ public class BalanceServiceImpl implements BalanceService {
     }
 
     @Override
-    public Balance save(Balance userBalance) {
+    public void save(Balance userBalance) {
         if(balanceRepository.findById(userBalance.getId()) != null) {
             throw new DuplicateBalanceException();
         }
-        Balance savedUserBalance = balanceRepository.save(userBalance);
-        if (savedUserBalance == null) {
-            throw new BalanceNotFoundException();
-        }
-        return savedUserBalance;
+        balanceRepository.save(userBalance);
     }
 
     @Override

@@ -4,7 +4,7 @@ import com.example.model.User;
 import com.example.repository.UserRepository;
 
 public interface UserService  {
-    User save(User user);
+    void save(User user);
     User findById(long id);
     User findByLogin(String login);
 
