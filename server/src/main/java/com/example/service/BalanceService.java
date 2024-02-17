@@ -6,6 +6,7 @@ public interface BalanceService  {
 
     Balance save(Balance balance);
     void delete(Balance balance);
+
     Balance findById(long id);
     Balance findByUserId(long userId);
     Balance findByUserLogin(String login);

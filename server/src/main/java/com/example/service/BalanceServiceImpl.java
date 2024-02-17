@@ -2,6 +2,7 @@ package com.example.service;
 
 import com.example.exception.BalanceDeletionException;
 import com.example.exception.BalanceNotFoundException;
+import com.example.exception.DuplicateBalanceException;
 import com.example.model.Balance;
 import com.example.repository.BalanceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class BalanceServiceImpl implements BalanceService {
 
     @Override
     public Balance save(Balance userBalance) {
+        if(balanceRepository.findById(userBalance.getId()) != null) {
+            throw new DuplicateBalanceException();
+        }
         Balance savedUserBalance = balanceRepository.save(userBalance);
         if (savedUserBalance == null) {
             throw new BalanceNotFoundException();
@@ -57,35 +61,29 @@ public class BalanceServiceImpl implements BalanceService {
 
     @Override
     public void delete(Balance balance) {
+        findById(balance.getId());
         balanceRepository.delete(balance);
-        if (balanceRepository.findById(balance.getId()) != null) {
-            throw new BalanceDeletionException();
-        }
     }
 
     @Override
     public void deleteById(long id) {
+        findById(id);
         balanceRepository.deleteById(id);
-        if (balanceRepository.findById(id) != null) {
-            throw new BalanceDeletionException();
-        }
     }
 
     @Override
     public void deleteByUserId(long userId) {
+        findByUserId(userId);
         balanceRepository.deleteByUser_Id(userId);
-        if (balanceRepository.findByUser_Id(userId) != null) {
-            throw new BalanceDeletionException();
-        }
     }
 
     @Override
     public void deleteByUserLogin(String login) {
+        findByUserLogin(login);
         balanceRepository.deleteByUser_Login(login);
-        if (balanceRepository.findByUser_Login(login) != null) {
-            throw new BalanceDeletionException();
-        }
     }
+
+
 
 
 }
