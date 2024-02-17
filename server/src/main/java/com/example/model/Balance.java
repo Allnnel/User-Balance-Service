@@ -1,35 +1,31 @@
 package com.example.model;
+import javax.persistence.*;
 
 import com.example.exception.InsufficientBalanceException;
 
+@Entity
+@Table(name = "balance", schema = "server")
 public class Balance {
-    private double amount;
-    private int userId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
-    public Balance(int userId) {
-        this.userId = userId;
+    @Column(name = "amount", nullable = false)
+    private double amount;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
+
+
+    public Balance(User user) {
+        this.user = user;
         this.amount = 0.0;
     }
 
-    public Balance(int userId, double amount) {
-        this.userId = userId;
+    public Balance(User user, double amount) {
+        this.user = user;
         this.amount = amount;
-    }
-
-    public double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
     }
 
     // увелечение баланса
@@ -45,13 +41,36 @@ public class Balance {
             throw new InsufficientBalanceException();
         }
     }
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     @Override
     public String toString() {
         return "Balance{" +
-                "amount=" + amount +
-                ", userId=" + userId +
+                "id=" + id +
+                ", amount=" + amount +
+                ", user=" + user +
                 '}';
     }
-
 }

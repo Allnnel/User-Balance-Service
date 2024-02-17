@@ -1,15 +1,24 @@
 package com.example.model;
 
+import javax.persistence.*;
 import java.util.Date;
 
+@Entity
+@Table(name = "user", schema = "server")
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    @Column(name = "login", nullable = false)
     private String login;
+    @Column(name = "passwordHash", nullable = false)
     private String passwordHash;
+    @Column(name = "email", nullable = false)
     private String email;
+    @Column(name = "birthDay", nullable = false)
     private Date birthDay;
+    @Column(name = "mobilePhone", nullable = false)
     private String mobilePhone;
-
-
 
     public String getLogin() {
         return login;
@@ -49,6 +58,14 @@ public class User {
 
     public void setMobilePhone(String mobilePhone) {
         this.mobilePhone = mobilePhone;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     @Override
