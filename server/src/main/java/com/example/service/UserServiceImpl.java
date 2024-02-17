@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component("userService")
 public class UserServiceImpl implements UserService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Autowired
     public UserServiceImpl(@Qualifier("userRepository") UserRepository userRepository) {

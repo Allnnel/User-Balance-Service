@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Component("balanceService")
 public class BalanceServiceImpl implements BalanceService {
-    private BalanceRepository balanceRepository;
+    private final BalanceRepository balanceRepository;
 
     @Autowired
     public BalanceServiceImpl(@Qualifier("balanceRepository") BalanceRepository balanceRepository) {
@@ -82,8 +82,5 @@ public class BalanceServiceImpl implements BalanceService {
         findByUserLogin(login);
         balanceRepository.deleteByUser_Login(login);
     }
-
-
-
 
 }
