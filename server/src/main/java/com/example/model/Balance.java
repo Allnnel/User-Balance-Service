@@ -14,8 +14,12 @@ public class Balance {
     private double amount;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumns({
+            @JoinColumn(name = "userLogin", referencedColumnName = "login"),
+            @JoinColumn(name = "userId", referencedColumnName = "id")
+    })
     private User user;
+
 
 
     public Balance(User user) {

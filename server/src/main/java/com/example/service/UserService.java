@@ -1,4 +1,6 @@
 package com.example.service;
 
-public class UserService {
+import com.example.repository.UserRepository;
+
+public class UserService  {
 }
