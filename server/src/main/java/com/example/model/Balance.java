@@ -42,7 +42,7 @@ public class Balance {
         if (this.amount >= value) {
             this.amount -= value;
         } else {
-            new InsufficientBalanceException();
+            throw new InsufficientBalanceException();
         }
     }
 
