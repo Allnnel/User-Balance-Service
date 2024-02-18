@@ -12,7 +12,7 @@ import javax.sql.DataSource;
 import java.util.Objects;
 
 @Configuration
-@ComponentScan(basePackages = "com.example.repository")
+@ComponentScan(basePackages = "com.example")
 @PropertySource("classpath:application.properties")
 public class UserBalanceServiceApplication {
     @Autowired

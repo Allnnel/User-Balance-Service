@@ -20,6 +20,14 @@ public class User {
     @Column(name = "mobilePhone", nullable = false)
     private String mobilePhone;
 
+    public User(long id, String login, String passwordHash, String email, Date birthDay, String mobilePhone) {
+        this.id = id;
+        this.login = login;
+        this.passwordHash = passwordHash;
+        this.email = email;
+        this.birthDay = birthDay;
+        this.mobilePhone = mobilePhone;
+    }
     public String getLogin() {
         return login;
     }
