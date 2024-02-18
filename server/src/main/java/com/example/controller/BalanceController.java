@@ -31,7 +31,7 @@ public class BalanceController {
     public String getUsersPage(Model model) {
         List<Balance> balances = balanceService.getAllBalances();
         model.addAttribute("balances",balances);
-        return "balances";
+        return "balancesPage";
     }
 
     /**

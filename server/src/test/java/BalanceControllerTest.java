@@ -56,16 +56,15 @@ import static org.mockito.Mockito.when;
         balance2.setAmount(200.0);
     }
 
-
     @Test
     public void testGetUsersPage() throws Exception {
-        out.println("1");
         List<Balance> balances = Arrays.asList(balance1, balance2);
         when(balanceService.getAllBalances()).thenReturn(balances);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/balances"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("balances"))
+                .andExpect(MockMvcResultMatchers.view().name("balancesPage")) // изменение ожидаемого имени представления
                 .andExpect(MockMvcResultMatchers.model().attributeExists("balances"));
     }
+
 }
