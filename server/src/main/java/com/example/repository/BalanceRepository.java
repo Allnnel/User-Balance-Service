@@ -3,9 +3,6 @@ package com.example.repository;
 import com.example.model.Balance;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
-
-import java.util.Optional;
 
 @Component("balanceRepository")
 public interface BalanceRepository extends JpaRepository<Balance, Long> {

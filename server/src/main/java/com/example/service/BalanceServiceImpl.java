@@ -1,6 +1,5 @@
 package com.example.service;
 
-import com.example.exception.BalanceDeletionException;
 import com.example.exception.BalanceNotFoundException;
 import com.example.exception.DuplicateBalanceException;
 import com.example.model.Balance;

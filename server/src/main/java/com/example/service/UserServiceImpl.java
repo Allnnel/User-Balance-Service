@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.Optional;
+
 @Component("userService")
 public class UserServiceImpl implements UserService {
 
@@ -61,5 +64,30 @@ public class UserServiceImpl implements UserService {
         findById(user.getId());
         userRepository.deleteById(user.getId());
     }
+    @Override
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+    @Override
+    public void update(User user) {
+        Optional<User> optionalUser = Optional.ofNullable(userRepository.findById(user.getId()));
+        if (optionalUser.isPresent()) {
+            User existingUser = optionalUser.get();
+            if (user.getBirthDay() != null)
+                existingUser.setBirthDay(user.getBirthDay());
+            if (user.getEmail() != null)
+                existingUser.setEmail(user.getEmail());
+            if (user.getLogin() != null)
+                existingUser.setLogin(user.getLogin());
+            if (user.getMobilePhone() != null)
+                existingUser.setMobilePhone(user.getMobilePhone());
+            if (user.getPasswordHash() != null)
+                existingUser.setPasswordHash(user.getPasswordHash());
+            userRepository.save(existingUser);
+        } else {
+            userRepository.save(user);
+        }
+    }
+
 
 }

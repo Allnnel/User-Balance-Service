@@ -21,7 +21,6 @@ public class Balance {
     private User user;
 
 
-
     public Balance(User user) {
         this.user = user;
         this.amount = 0.0;
