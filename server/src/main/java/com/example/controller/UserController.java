@@ -69,7 +69,7 @@ public class UserController {
      * @param login Логин пользователя, которого нужно удалить.
      * @return Строка перенаправления на страницу пользователей.
      */
-    @DeleteMapping("/users/{userId}")
+    @DeleteMapping("/users/{login}")
     public String deleteUsersPage(@PathVariable String login) {
         userService.deleteByLogin(login);
         return "redirect:/users";
