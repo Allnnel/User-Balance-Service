@@ -1,6 +1,7 @@
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClients;
 import org.junit.Test;
 
@@ -12,13 +13,12 @@ import java.io.InputStreamReader;
 import static org.junit.Assert.assertEquals;
 
 public class PostmanCollectionTest {
-
     @Test
     public void testPostmanCollection() throws IOException {
         String collectionUrl = "https://dev-booking.agilecyber.com/api/user/auth/mail-sign-in";
 
         HttpClient client = HttpClients.createDefault();
-        HttpGet request = new HttpGet(collectionUrl);
+        HttpPost request = new HttpPost(collectionUrl); // Используем метод POST
 
         HttpResponse response = client.execute(request);
 
@@ -34,4 +34,5 @@ public class PostmanCollectionTest {
         }
         System.out.println("Response Body: " + responseBody.toString());
     }
+
 }

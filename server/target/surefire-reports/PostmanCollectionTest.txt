@@ -1,9 +1,9 @@
 -------------------------------------------------------------------------------
 Test set: PostmanCollectionTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 1.069 s <<< FAILURE! -- in PostmanCollectionTest
-PostmanCollectionTest.testPostmanCollection -- Time elapsed: 1.030 s <<< FAILURE!
-java.lang.AssertionError: expected:<200> but was:<405>
+Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.998 s <<< FAILURE! -- in PostmanCollectionTest
+PostmanCollectionTest.testPostmanCollection -- Time elapsed: 0.961 s <<< FAILURE!
+java.lang.AssertionError: expected:<200> but was:<422>
 	at org.junit.Assert.fail(Assert.java:89)
 	at org.junit.Assert.failNotEquals(Assert.java:835)
 	at org.junit.Assert.assertEquals(Assert.java:647)
