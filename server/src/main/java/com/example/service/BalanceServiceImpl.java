@@ -3,11 +3,15 @@ package com.example.service;
 import com.example.exception.BalanceNotFoundException;
 import com.example.exception.DuplicateBalanceException;
 import com.example.model.Balance;
+import com.example.model.User;
 import com.example.repository.BalanceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @Component("balanceService")
@@ -77,5 +81,24 @@ public class BalanceServiceImpl implements BalanceService {
         findByUserLogin(login);
         balanceRepository.deleteByUser_Login(login);
     }
+
+    @Override
+    public List<Balance> getAllBalances() {
+        return balanceRepository.findAll();
+    }
+    @Override
+    public void update(Balance balance) {
+        Optional<Balance> optionalBalance = Optional.ofNullable(balanceRepository.findById(balance.getId()));
+        if (optionalBalance.isPresent()) {
+            Balance existingBalance = optionalBalance.get();
+            existingBalance.setAmount(balance.getAmount());
+            if (balance.getUser() != null)
+                existingBalance.setUser(balance.getUser());
+        } else {
+            balanceRepository.save(balance);
+        }
+    }
+
+
 
 }

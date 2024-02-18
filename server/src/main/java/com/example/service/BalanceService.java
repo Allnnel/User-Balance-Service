@@ -2,6 +2,8 @@ package com.example.service;
 
 import com.example.model.Balance;
 
+import java.util.List;
+
 public interface BalanceService  {
 
     void save(Balance balance);
@@ -14,4 +16,7 @@ public interface BalanceService  {
     void deleteById(long id);
     void deleteByUserId(long userId);
     void deleteByUserLogin(String login);
+
+    List<Balance> getAllBalances();
+    void update(Balance balance);
 }
