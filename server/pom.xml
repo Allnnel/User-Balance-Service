@@ -26,8 +26,10 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>6.0.9</version> <!-- Используйте подходящую версию, которая совместима с вашей версией Jakarta Servlet API -->
+            <version>6.1.4</version> <!-- Используйте подходящую версию, которая совместима с вашей версией Jakarta Servlet API -->
         </dependency>
+
+        <!-- верх зависимы друг от друга  -->
 
         <dependency>
             <groupId>jakarta.servlet</groupId>

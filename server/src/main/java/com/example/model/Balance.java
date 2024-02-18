@@ -26,6 +26,9 @@ public class Balance {
         this.amount = 0.0;
     }
 
+    public Balance() {
+        // конструктор без параметров
+    }
     public Balance(User user, double amount) {
         this.user = user;
         this.amount = amount;

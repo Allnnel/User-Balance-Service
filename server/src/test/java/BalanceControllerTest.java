@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -18,8 +19,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.sql.Date;
 import java.util.Arrays;
 import java.util.List;
-
-import static java.lang.System.out;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest(classes = UserBalanceServiceApplication.class)
@@ -35,13 +34,15 @@ import static org.mockito.Mockito.when;
     private UserService userService;
 
     private Balance balance1;
+    private User user1;
+    private User user2;
     private Balance balance2;
 
     @BeforeEach
     void setUp() {
-        User user1 = new User(1, "rhogoron", "123123", "rhogoron@mail.ru",
+         user1 = new User(1, "rhogoron", "123123", "rhogoron@mail.ru",
                 Date.valueOf("2002-02-17"), "+123123");
-        User user2 = new User(2, "abella", "123123", "abella@mail.ru",
+         user2 = new User(2, "abella", "123123", "abella@mail.ru",
                 Date.valueOf("2001-05-05"), "+123423");
 
         when(userService.findById(1)).thenReturn(user1);
@@ -63,8 +64,22 @@ import static org.mockito.Mockito.when;
 
         mockMvc.perform(MockMvcRequestBuilders.get("/balances"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("balancesPage")) // изменение ожидаемого имени представления
+                .andExpect(MockMvcResultMatchers.view().name("balancesPage"))
                 .andExpect(MockMvcResultMatchers.model().attributeExists("balances"));
     }
+
+    @Test
+    public void testPostUsersPage() throws Exception {
+        // Подготовка данных для теста
+        Balance newBalance = new Balance(user1, 300);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/balances")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("id", "3")
+                        .param("amount", "300.0"))
+                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/balances"));
+    }
+
 
 }
