@@ -1,11 +1,13 @@
 package com.example.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
 @Table(name = "user", schema = "server")
-public class User {
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -16,12 +18,14 @@ public class User {
     @Column(name = "email", nullable = false)
     private String email;
     @Column(name = "birthDay", nullable = false)
-    private Date birthDay;
+    private LocalDate birthDay;
     @Column(name = "mobilePhone", nullable = false)
     private String mobilePhone;
 
-    public User(long id, String login, String passwordHash, String email, Date birthDay, String mobilePhone) {
-        this.id = id;
+    public User() {
+    }
+
+    public User( String login, String passwordHash, String email, LocalDate birthDay, String mobilePhone) {
         this.login = login;
         this.passwordHash = passwordHash;
         this.email = email;
@@ -52,11 +56,11 @@ public class User {
         this.email = email;
     }
 
-    public Date getBirthDay() {
+    public LocalDate getBirthDay() {
         return birthDay;
     }
 
-    public void setBirthDay(Date birthDay) {
+    public void setBirthDay(LocalDate birthDay) {
         this.birthDay = birthDay;
     }
 

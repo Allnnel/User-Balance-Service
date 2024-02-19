@@ -3,18 +3,15 @@ package com.example.service;
 import com.example.exception.BalanceNotFoundException;
 import com.example.exception.DuplicateBalanceException;
 import com.example.model.Balance;
-import com.example.model.User;
 import com.example.repository.BalanceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-@Component("balanceService")
 public class BalanceServiceImpl implements BalanceService {
     private final BalanceRepository balanceRepository;
 
@@ -25,7 +22,7 @@ public class BalanceServiceImpl implements BalanceService {
 
     @Override
     public void save(Balance userBalance) {
-        if(balanceRepository.findById(userBalance.getId()) != null) {
+        if(balanceRepository.findById(userBalance.getId()).isPresent()) {
             throw new DuplicateBalanceException();
         }
         balanceRepository.save(userBalance);
@@ -33,29 +30,14 @@ public class BalanceServiceImpl implements BalanceService {
 
     @Override
     public Balance findById(long id) {
-        Balance balance = balanceRepository.findById(id);
-        if (balance == null) {
-            throw new BalanceNotFoundException();
-        }
-        return balance;
-    }
-
-    @Override
-    public Balance findByUserId(long id) {
-        Balance balance = balanceRepository.findByUser_Id(id);
-        if (balance == null) {
-            throw new BalanceNotFoundException();
-        }
-        return balance;
+        Optional<Balance> balanceOptional = balanceRepository.findById(id);
+        return balanceOptional.orElseThrow(BalanceNotFoundException::new);
     }
 
     @Override
     public Balance findByUserLogin(String login) {
-        Balance balance = balanceRepository.findByUser_Login(login);
-        if (balance == null) {
-            throw new BalanceNotFoundException();
-        }
-        return balance;
+        Optional<Balance> balanceOptional = balanceRepository.findByUser_Login(login);
+        return balanceOptional.orElseThrow(BalanceNotFoundException::new);
     }
 
     @Override
@@ -70,11 +52,6 @@ public class BalanceServiceImpl implements BalanceService {
         balanceRepository.deleteById(id);
     }
 
-    @Override
-    public void deleteByUserId(long userId) {
-        findByUserId(userId);
-        balanceRepository.deleteByUser_Id(userId);
-    }
 
     @Override
     public void deleteByUserLogin(String login) {
@@ -88,7 +65,7 @@ public class BalanceServiceImpl implements BalanceService {
     }
     @Override
     public void update(Balance balance) {
-        Optional<Balance> optionalBalance = Optional.ofNullable(balanceRepository.findById(balance.getId()));
+        Optional<Balance> optionalBalance = balanceRepository.findById(balance.getId());
         if (optionalBalance.isPresent()) {
             Balance existingBalance = optionalBalance.get();
             existingBalance.setAmount(balance.getAmount());
@@ -98,7 +75,4 @@ public class BalanceServiceImpl implements BalanceService {
             balanceRepository.save(balance);
         }
     }
-
-
-
 }

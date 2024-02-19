@@ -10,11 +10,11 @@ public interface BalanceService  {
     void delete(Balance balance);
 
     Balance findById(long id);
-    Balance findByUserId(long userId);
+
     Balance findByUserLogin(String login);
 
     void deleteById(long id);
-    void deleteByUserId(long userId);
+
     void deleteByUserLogin(String login);
 
     List<Balance> getAllBalances();

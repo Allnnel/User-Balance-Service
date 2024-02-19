@@ -5,25 +5,28 @@ import com.example.exception.UserNotFoundException;
 import com.example.model.User;
 import com.example.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
-@Component("userService")
+import static java.lang.System.out;
+
+@Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
     @Autowired
-    public UserServiceImpl(@Qualifier("userRepository") UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @Override
     public void save(User user) {
-        if (userRepository.findByLogin(user.getLogin()) != null) {
+        if (userRepository.findByLogin(user.getLogin()).isPresent()) {
             throw new DuplicateUserException();
         }
        userRepository.save(user);
@@ -31,20 +34,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByLogin(String login) {
-        User user = userRepository.findByLogin(login);
-        if (user == null) {
+        Optional<User> user = userRepository.findByLogin(login);
+        if (!user.isPresent()) {
             throw new UserNotFoundException();
         }
-        return user;
+        return user.get();
     }
 
     @Override
     public User findById(long id) {
-        User user = userRepository.findById(id);
-        if (user == null) {
+        Optional<User> user = userRepository.findById(id);
+        if (!user.isPresent()) {
             throw new UserNotFoundException();
         }
-        return user;
+        return user.get();
     }
 
     @Override
@@ -61,16 +64,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void delete(User user) {
-        findById(user.getId());
         userRepository.deleteById(user.getId());
     }
+
     @Override
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
     @Override
     public void update(User user) {
-        Optional<User> optionalUser = Optional.ofNullable(userRepository.findById(user.getId()));
+        Optional<User> optionalUser = userRepository.findById(user.getId());
         if (optionalUser.isPresent()) {
             User existingUser = optionalUser.get();
             if (user.getBirthDay() != null)

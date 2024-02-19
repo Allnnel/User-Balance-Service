@@ -1,7 +1,10 @@
 package com.example.model;
-import javax.persistence.*;
 
+import javax.persistence.*;
 import com.example.exception.InsufficientBalanceException;
+import org.springframework.stereotype.Component;
+
+import java.io.Serializable;
 
 @Entity
 @Table(name = "balance", schema = "server")
@@ -14,12 +17,8 @@ public class Balance {
     private double amount;
 
     @ManyToOne
-    @JoinColumns({
-            @JoinColumn(name = "userLogin", referencedColumnName = "login"),
-            @JoinColumn(name = "userId", referencedColumnName = "id")
-    })
+    @JoinColumn(name = "userLogin", referencedColumnName = "login")
     private User user;
-
 
     public Balance(User user) {
         this.user = user;

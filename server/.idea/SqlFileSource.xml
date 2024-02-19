@@ -3,7 +3,7 @@
   <component name="SqlFileSource">
     <option name="sources">
       <map>
-        <entry key="$PROJECT_DIR$/src/main/resources/db/migration/ V1__create_user_table.sql" value="6244a80d-384d-43ef-9709-b6585c5e2ee4" />
+        <entry key="$PROJECT_DIR$/src/main/resources/db/migration/ V1__create_user_table.sql" value="b25f82f7-c450-42f9-8b4b-8d5ed258de60" />
       </map>
     </option>
   </component>

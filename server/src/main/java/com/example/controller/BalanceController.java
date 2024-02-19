@@ -3,7 +3,6 @@ package com.example.controller;
 import com.example.model.Balance;
 import com.example.service.BalanceService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,11 +10,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
+@RequestMapping("/balances")
 public class BalanceController {
 
     private final BalanceService balanceService;
     @Autowired
-    public BalanceController(@Qualifier("balanceService") BalanceService balanceService) {
+    public BalanceController( BalanceService balanceService) {
         this.balanceService = balanceService;
     }
 
