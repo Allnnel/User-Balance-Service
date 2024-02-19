@@ -41,13 +41,15 @@ public class UserBalanceServiceApplication {
         em.setPackagesToScan("com.example");
         em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 
-//        // Установка свойства для автоматического создания схемы базы данных
-//        Properties properties = new Properties();
-//        properties.setProperty("hibernate.hbm2ddl.auto", "update"); // можно использовать "create" или "update"
-//        em.setJpaProperties(properties);
+        // Установка свойства для автоматического создания и удаления схемы базы данных
+        Properties properties = new Properties();
+        properties.setProperty("hibernate.hbm2ddl.auto", "drop");
+        properties.setProperty("hibernate.hbm2ddl.auto", "create"); // Используем create-drop
+        em.setJpaProperties(properties);
 
         return em;
     }
+
 
 
 }

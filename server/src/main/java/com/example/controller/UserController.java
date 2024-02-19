@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import com.example.model.Balance;
 import com.example.model.User;
 import com.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
@@ -31,8 +31,9 @@ public class UserController {
     public String getUsersPage(Model model) {
         List<User> users = userService.getAllUsers();
         model.addAttribute("users", users);
-        return "users";
+        return "usersPage";
     }
+
 
     /**
      * Метод контроллера для обработки POST-запроса по адресу "/users".
@@ -43,7 +44,7 @@ public class UserController {
      * @return имя представления или URL-адрес для перенаправления.
      */
     @PostMapping("/users")
-    public String postUsersPage(User user) {
+    public String postUsersPage(@RequestBody User user) {
         userService.save(user);
         return "redirect:/users";
     }
@@ -55,7 +56,7 @@ public class UserController {
      * @return имя представления или URL-адрес для перенаправления.
      */
     @PutMapping("/users")
-    public String putUsersPage(User user) {
+    public String putUsersPage(@RequestBody User user) {
         userService.update(user);
         return "redirect:/users";
     }

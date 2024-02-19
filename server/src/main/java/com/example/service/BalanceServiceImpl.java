@@ -22,7 +22,7 @@ public class BalanceServiceImpl implements BalanceService {
 
     @Override
     public void save(Balance userBalance) {
-        if(balanceRepository.findById(userBalance.getId()).isPresent()) {
+        if(balanceRepository.findByUser_Login(userBalance.getUser().getLogin()).isPresent()) {
             throw new DuplicateBalanceException();
         }
         balanceRepository.save(userBalance);
@@ -51,7 +51,6 @@ public class BalanceServiceImpl implements BalanceService {
         findById(id);
         balanceRepository.deleteById(id);
     }
-
 
     @Override
     public void deleteByUserLogin(String login) {

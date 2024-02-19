@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public void update(User user) {
-        Optional<User> optionalUser = userRepository.findById(user.getId());
+        Optional<User> optionalUser = userRepository.findByLogin(user.getLogin());
         if (optionalUser.isPresent()) {
             User existingUser = optionalUser.get();
             if (user.getBirthDay() != null)
@@ -91,6 +91,9 @@ public class UserServiceImpl implements UserService {
             userRepository.save(user);
         }
     }
+
+
+
 
 
 }

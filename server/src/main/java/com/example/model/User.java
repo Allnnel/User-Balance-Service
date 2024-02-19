@@ -17,15 +17,15 @@ public class User implements Serializable {
     private String passwordHash;
     @Column(name = "email", nullable = false)
     private String email;
-    @Column(name = "birthDay", nullable = false)
-    private LocalDate birthDay;
-    @Column(name = "mobilePhone", nullable = false)
+    @Column(name = "birthDay", nullable = true)
+    private  String birthDay;
+    @Column(name = "mobilePhone", nullable = true)
     private String mobilePhone;
 
     public User() {
     }
 
-    public User( String login, String passwordHash, String email, LocalDate birthDay, String mobilePhone) {
+    public User( String login, String passwordHash, String email, String birthDay, String mobilePhone) {
         this.login = login;
         this.passwordHash = passwordHash;
         this.email = email;
@@ -56,11 +56,11 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public LocalDate getBirthDay() {
+    public String getBirthDay() {
         return birthDay;
     }
 
-    public void setBirthDay(LocalDate birthDay) {
+    public void setBirthDay(String birthDay) {
         this.birthDay = birthDay;
     }
 

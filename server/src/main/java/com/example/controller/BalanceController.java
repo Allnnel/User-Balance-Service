@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import com.example.model.Balance;
+import com.example.model.User;
 import com.example.service.BalanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,8 @@ public class BalanceController {
     public BalanceController( BalanceService balanceService) {
         this.balanceService = balanceService;
     }
+
+
 
     /**
      * Метод для отображения страницы с балансами пользователей.
@@ -42,7 +45,7 @@ public class BalanceController {
      * @return Строка перенаправления на страницу с балансами.
      */
     @PostMapping("/balances")
-    public String postUsersPage(Balance balance) {
+    public String postUsersPage(@RequestBody Balance balance) {
         balanceService.save(balance);
         return "redirect:/balances";
     }
@@ -57,7 +60,7 @@ public class BalanceController {
      * @return Строка перенаправления на страницу с балансами.
      */
     @PutMapping("/balances")
-    public String putUsersPage(Balance balance) {
+    public String putUsersPage(@RequestBody Balance balance) {
         balanceService.update(balance);
         return "redirect:/balances";
     }
