@@ -19,13 +19,13 @@ public class Main {
             BalanceService balanceService = context.getBean(BalanceService.class);
             UserService userService = context.getBean(UserService.class);
 
-            for(int i = 10; i != 11; i++) {
-                balanceService.deleteById(i);
-            }
-
-            for(int i = 16; i != 17; i++) {
-                userService.deleteById(i);
-            }
+//            for(int i = 10; i != 11; i++) {
+//                balanceService.deleteById(i);
+//            }
+//
+//            for(int i = 16; i != 17; i++) {
+//                userService.deleteById(i);
+//            }
 //
 //            User user1 = new User( "rhogoron1", "123",
 //                    "rhogoron@mail.ru", LocalDate.of(1990, 5, 15), "+456789");

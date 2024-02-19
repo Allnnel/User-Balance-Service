@@ -1,6 +1,7 @@
 package com.example;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
@@ -18,6 +19,7 @@ import java.util.Properties;
 @PropertySource("classpath:application.properties")
 @SpringBootApplication
 public class UserBalanceServiceApplication {
+
     @Autowired
     private Environment environment;
 
