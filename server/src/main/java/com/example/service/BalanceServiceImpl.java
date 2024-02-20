@@ -1,4 +1,4 @@
-package com.example.service;
+ package com.example.service;
 
 import com.example.exception.BalanceNotFoundException;
 import com.example.exception.DuplicateBalanceException;
@@ -16,7 +16,7 @@ public class BalanceServiceImpl implements BalanceService {
   private final BalanceRepository balanceRepository;
 
   @Autowired
-  public BalanceServiceImpl(@Qualifier("balanceRepository") BalanceRepository balanceRepository) {
+  public BalanceServiceImpl(BalanceRepository balanceRepository) {
     this.balanceRepository = balanceRepository;
   }
 
