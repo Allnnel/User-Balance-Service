@@ -1,9 +1,14 @@
 package com.example.controller;
 
+import com.example.exception.DuplicateUserException;
+import com.example.exception.UserNotFoundException;
 import com.example.model.User;
+import com.example.response.ResponseMessage;
 import com.example.service.UserService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,13 +28,18 @@ public class UserController {
    * из сервиса и передает его в представление.
    *
    * @param model объект Model, предоставляемый Spring MVC для передачи данных в представление.
-   * @return имя представления, которое будет отображено пользователю.
+   * @return Ответ в формате JSON, содержащий статус операции, код состояния и объект баланса.
    */
   @GetMapping("/users")
-  public String getUsersPage(Model model) {
+  public ResponseEntity<String> getUsersPage(Model model) {
     List<User> users = userService.getAllUsers();
-    model.addAttribute("users", users);
-    return "usersPage";
+    if (users.isEmpty()) {
+      ResponseMessage response = new ResponseMessage("Failed", "500", null);
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response.toJSON());
+    }
+    model.addAttribute("balances", users);
+    ResponseMessage response = new ResponseMessage("Success", "200", model);
+    return ResponseEntity.status(HttpStatus.CREATED).body(response.toJSON());
   }
 
   /**
@@ -38,24 +48,31 @@ public class UserController {
    * пользователя в базе данных.
    *
    * @param user объект пользователя, переданный из формы на веб-странице.
-   * @return имя представления или URL-адрес для перенаправления.
+   * @return Ответ в формате JSON, содержащий статус операции, код состояния и объект баланса.
    */
   @PostMapping("/users")
-  public String postUsersPage(@RequestBody User user) {
-    userService.save(user);
-    return "redirect:/users";
+  public ResponseEntity<String> postUsersPage(@RequestBody User user) {
+    try {
+      userService.save(user);
+    } catch (DuplicateUserException e) {
+      ResponseMessage response = new ResponseMessage("Failed", "500", null);
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response.toJSON());
+    }
+    ResponseMessage response = new ResponseMessage("Success", "200", user);
+    return ResponseEntity.status(HttpStatus.CREATED).body(response.toJSON());
   }
 
   /**
    * Метод контроллера для обновления данных пользователя по адресу "/users".
    *
    * @param user объект пользователя, содержащий обновленные данные.
-   * @return имя представления или URL-адрес для перенаправления.
+   * @return Ответ в формате JSON, содержащий статус операции, код состояния и объект баланса.
    */
   @PutMapping("/users")
-  public String putUsersPage(@RequestBody User user) {
+  public ResponseEntity<String> putUsersPage(@RequestBody User user) {
     userService.update(user);
-    return "redirect:/users";
+    ResponseMessage response = new ResponseMessage("Success", "200", user);
+    return ResponseEntity.status(HttpStatus.CREATED).body(response.toJSON());
   }
 
   /**
@@ -64,11 +81,17 @@ public class UserController {
    * После успешного удаления пользователя перенаправляет пользователя на страницу пользователей.
    *
    * @param login Логин пользователя, которого нужно удалить.
-   * @return Строка перенаправления на страницу пользователей.
+   * @return Ответ в формате JSON, содержащий статус операции, код состояния и объект баланса.
    */
   @DeleteMapping("/users/{login}")
-  public String deleteUsersPage(@PathVariable String login) {
-    userService.deleteByLogin(login);
-    return "redirect:/users";
+  public ResponseEntity<String> deleteUsersPage(@PathVariable String login) {
+    try {
+      userService.deleteByLogin(login);
+    } catch (UserNotFoundException e) {
+      ResponseMessage response = new ResponseMessage("Failed", "500", null);
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response.toJSON());
+    }
+    ResponseMessage response = new ResponseMessage("Success", "200", login);
+    return ResponseEntity.status(HttpStatus.CREATED).body(response.toJSON());
   }
 }

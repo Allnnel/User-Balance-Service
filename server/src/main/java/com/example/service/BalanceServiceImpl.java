@@ -21,7 +21,7 @@ public class BalanceServiceImpl implements BalanceService {
   }
 
   @Override
-  public void save(Balance userBalance) {
+  public void save(Balance userBalance) throws DuplicateBalanceException {
     if (balanceRepository.findByUser_Login(userBalance.getUser().getLogin()).isPresent()) {
       throw new DuplicateBalanceException();
     }
@@ -29,31 +29,31 @@ public class BalanceServiceImpl implements BalanceService {
   }
 
   @Override
-  public Balance findById(long id) {
+  public Balance findById(long id) throws BalanceNotFoundException {
     Optional<Balance> balanceOptional = balanceRepository.findById(id);
     return balanceOptional.orElseThrow(BalanceNotFoundException::new);
   }
 
   @Override
-  public Balance findByUserLogin(String login) {
+  public Balance findByUserLogin(String login) throws BalanceNotFoundException {
     Optional<Balance> balanceOptional = balanceRepository.findByUser_Login(login);
     return balanceOptional.orElseThrow(BalanceNotFoundException::new);
   }
 
   @Override
-  public void delete(Balance balance) {
+  public void delete(Balance balance) throws BalanceNotFoundException {
     findById(balance.getId());
     balanceRepository.delete(balance);
   }
 
   @Override
-  public void deleteById(long id) {
+  public void deleteById(long id) throws BalanceNotFoundException {
     findById(id);
     balanceRepository.deleteById(id);
   }
 
   @Override
-  public void deleteByUserLogin(String login) {
+  public void deleteByUserLogin(String login) throws BalanceNotFoundException {
     findByUserLogin(login);
     balanceRepository.deleteByUser_Login(login);
   }
@@ -76,14 +76,14 @@ public class BalanceServiceImpl implements BalanceService {
   }
 
   @Override
-  public void increaseAmount(User user, int amountToAddOrSubtract) {
+  public void increaseAmount(User user, int amountToAddOrSubtract) throws BalanceNotFoundException {
     Balance balance = findByUserLogin(user.getLogin());
     balance.increaseAmount(amountToAddOrSubtract);
     update(balance);
   }
 
   @Override
-  public void decreaseAmount(User user, int amountToAddOrSubtract) {
+  public void decreaseAmount(User user, int amountToAddOrSubtract) throws BalanceNotFoundException {
     Balance balance = findByUserLogin(user.getLogin());
     balance.decreaseAmount(amountToAddOrSubtract);
     update(balance);

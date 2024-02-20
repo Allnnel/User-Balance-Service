@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public void save(User user) {
+  public void save(User user) throws DuplicateUserException {
     if (userRepository.findByLogin(user.getLogin()).isPresent()) {
       throw new DuplicateUserException();
     }
@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public User findByLogin(String login) {
+  public User findByLogin(String login) throws UserNotFoundException {
     Optional<User> user = userRepository.findByLogin(login);
     if (!user.isPresent()) {
       throw new UserNotFoundException();
@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public User findById(long id) {
+  public User findById(long id) throws UserNotFoundException {
     Optional<User> user = userRepository.findById(id);
     if (!user.isPresent()) {
       throw new UserNotFoundException();
@@ -48,19 +48,20 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public void deleteByLogin(String login) {
+  public void deleteByLogin(String login) throws UserNotFoundException {
     findByLogin(login);
     userRepository.deleteByLogin(login);
   }
 
   @Override
-  public void deleteById(long id) {
+  public void deleteById(long id) throws UserNotFoundException {
     findById(id);
     userRepository.deleteById(id);
   }
 
   @Override
-  public void delete(User user) {
+  public void delete(User user) throws UserNotFoundException {
+    findById(user.getId());
     userRepository.deleteById(user.getId());
   }
 

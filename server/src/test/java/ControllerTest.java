@@ -43,40 +43,39 @@ public class ControllerTest {
             MockMvcRequestBuilders.post("/users")
                 .content(userRequestBody)
                 .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-        .andExpect(MockMvcResultMatchers.redirectedUrl("/users"));
+        .andExpect(MockMvcResultMatchers.status().isCreated())
+        .andExpect(MockMvcResultMatchers.jsonPath("$.status").value("Success"))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.code").value("200"))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.balance.login").value("example_user"));
     // Получаем сохраненного пользователя из базы данных
-    User savedUser =
-        userRepository
-            .findByLogin("example_user")
-            .get(); // Предполагается, что у вас есть UserRepository
-    // создаем баланс с использованием сохраненного пользователя
+    User savedUser = userRepository.findByLogin("example_user").get();
     Balance balance = new Balance(savedUser, 300);
     String balanceRequestBody = objectMapper.writeValueAsString(balance);
-    // Отправка POST-запроса для сохранения баланса
     mockMvc
         .perform(
             MockMvcRequestBuilders.post("/balances")
                 .content(balanceRequestBody)
                 .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-        .andExpect(MockMvcResultMatchers.redirectedUrl("/balances"));
+        .andExpect(MockMvcResultMatchers.status().isCreated())
+        .andExpect(MockMvcResultMatchers.jsonPath("$.status").value("Success"))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.code").value("200"))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.balance.user.login").value("example_user"));
     User user5 = userRepository.findByLogin("example_user").get();
     user5.setEmail("5555555");
-    // Преобразование объекта User в JSON
     ObjectMapper objectMapper4 = new ObjectMapper();
-    // Отправка PUT-запроса для сохранения баланса
     String requestBody = objectMapper4.writeValueAsString(user5);
     mockMvc
         .perform(
             MockMvcRequestBuilders.put("/users")
                 .content(requestBody)
                 .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-        .andExpect(MockMvcResultMatchers.redirectedUrl("/users"));
+        .andExpect(MockMvcResultMatchers.status().isCreated())
+        .andExpect(MockMvcResultMatchers.jsonPath("$.status").value("Success"))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.code").value("200"))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.balance.login").value("example_user"));
   }
 
-  // ------------------- DELETE ------------------------------------
+  //  // ------------------- DELETE ------------------------------------
   @Test
   @Transactional
   public void testDeleteUser() throws Exception {
@@ -95,8 +94,10 @@ public class ControllerTest {
             MockMvcRequestBuilders.put("/users")
                 .content(userRequestBody)
                 .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-        .andExpect(MockMvcResultMatchers.redirectedUrl("/users"));
+        .andExpect(MockMvcResultMatchers.status().isCreated())
+        .andExpect(MockMvcResultMatchers.jsonPath("$.status").value("Success"))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.code").value("200"))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.balance.login").value("deleteUser"));
 
     User newUser = userRepository.findByLogin("deleteUser").get();
     Balance balance = new Balance(newUser, 200);
@@ -106,20 +107,26 @@ public class ControllerTest {
             MockMvcRequestBuilders.put("/balances")
                 .content(balanceRequestBody)
                 .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-        .andExpect(MockMvcResultMatchers.redirectedUrl("/balances"));
+        .andExpect(MockMvcResultMatchers.status().isCreated())
+        .andExpect(MockMvcResultMatchers.jsonPath("$.status").value("Success"))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.code").value("200"))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.balance.user.login").value("deleteUser"));
 
     String login = "deleteUser";
     String userLogin = "deleteUser";
     mockMvc
         .perform(MockMvcRequestBuilders.delete("/balances/{userLogin}", userLogin))
-        .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-        .andExpect(MockMvcResultMatchers.redirectedUrl("/balances"));
+        .andExpect(MockMvcResultMatchers.status().isCreated())
+        .andExpect(MockMvcResultMatchers.jsonPath("$.status").value("Success"))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.code").value("200"))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.balance").value("deleteUser"));
 
     mockMvc
         .perform(MockMvcRequestBuilders.delete("/users/{login}", login))
-        .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-        .andExpect(MockMvcResultMatchers.redirectedUrl("/users"));
+        .andExpect(MockMvcResultMatchers.status().isCreated())
+        .andExpect(MockMvcResultMatchers.jsonPath("$.status").value("Success"))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.code").value("200"))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.balance").value("deleteUser"));
   }
 
   // ------------------- GET ------------------------------------
@@ -127,15 +134,37 @@ public class ControllerTest {
   public void testGetBalancesPage() throws Exception {
     mockMvc
         .perform(MockMvcRequestBuilders.get("/balances"))
-        .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.view().name("balancesPage"));
+        .andExpect(MockMvcResultMatchers.status().isInternalServerError())
+        .andExpect(MockMvcResultMatchers.jsonPath("$.status").value("Failed"))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.code").value("500"));
   }
 
   @Test
   public void testGetUsersPage() throws Exception {
+    User user = new User();
+    user.setLogin("qqqqq");
+    user.setPasswordHash("password666");
+    user.setEmail("user@example.com");
+    user.setBirthDay("1990-05-15");
+    user.setMobilePhone("123-456-7890");
+    // Преобразование объекта User в JSON
+    ObjectMapper objectMapper = new ObjectMapper();
+    String userRequestBody = objectMapper.writeValueAsString(user);
+    // Отправка POST-запроса для сохранения пользователя
+    mockMvc
+        .perform(
+            MockMvcRequestBuilders.post("/users")
+                .content(userRequestBody)
+                .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(MockMvcResultMatchers.status().isCreated())
+        .andExpect(MockMvcResultMatchers.jsonPath("$.status").value("Success"))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.code").value("200"))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.balance.login").value("qqqqq"));
+
     mockMvc
         .perform(MockMvcRequestBuilders.get("/users"))
-        .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.view().name("usersPage"));
+        .andExpect(MockMvcResultMatchers.status().isCreated())
+        .andExpect(MockMvcResultMatchers.jsonPath("$.status").value("Success"))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.code").value("200"));
   }
 }
