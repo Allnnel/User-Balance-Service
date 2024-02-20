@@ -81,7 +81,7 @@ public class UserController {
    * После успешного удаления пользователя перенаправляет пользователя на страницу пользователей.
    *
    * @param login Логин пользователя, которого нужно удалить.
-   * @return Ответ в формате JSON, содержащий статус операции, код состояния и объект баланса.
+   * @return Ответ в формате JSON, содержащий статус операции, код состояния и логин удаленного пользователя.
    */
   @DeleteMapping("/users/{login}")
   public ResponseEntity<String> deleteUsersPage(@PathVariable String login) {

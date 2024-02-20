@@ -82,7 +82,7 @@ public class BalanceController {
    * перенаправляет на страницу с балансами.
    *
    * @param userLogin Логин пользователя, чей баланс нужно удалить.
-   * @return Ответ в формате JSON, содержащий статус операции, код состояния и объект баланса.
+   * @return Ответ в формате JSON, содержащий статус операции, код состояния и логин удаленного пользователя.
    */
   @DeleteMapping("/balances/{userLogin}")
   public ResponseEntity<String> deleteUsersPage(@PathVariable String userLogin) {
