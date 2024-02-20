@@ -3,6 +3,7 @@ package com.example.service;
 import com.example.exception.BalanceNotFoundException;
 import com.example.exception.DuplicateBalanceException;
 import com.example.model.Balance;
+import com.example.model.User;
 import com.example.repository.BalanceRepository;
 import java.util.List;
 import java.util.Optional;
@@ -72,5 +73,19 @@ public class BalanceServiceImpl implements BalanceService {
     } else {
       balanceRepository.save(balance);
     }
+  }
+
+  @Override
+  public void increaseAmount(User user, int amountToAddOrSubtract) {
+    Balance balance = findByUserLogin(user.getLogin());
+    balance.increaseAmount(amountToAddOrSubtract);
+    update(balance);
+  }
+
+  @Override
+  public void decreaseAmount(User user, int amountToAddOrSubtract) {
+    Balance balance = findByUserLogin(user.getLogin());
+    balance.decreaseAmount(amountToAddOrSubtract);
+    update(balance);
   }
 }

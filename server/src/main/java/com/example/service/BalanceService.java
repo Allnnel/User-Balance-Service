@@ -1,6 +1,7 @@
 package com.example.service;
 
 import com.example.model.Balance;
+import com.example.model.User;
 import java.util.List;
 
 public interface BalanceService {
@@ -20,4 +21,8 @@ public interface BalanceService {
   List<Balance> getAllBalances();
 
   void update(Balance balance);
+
+  void decreaseAmount(User user, int amountToAddOrSubtract);
+
+  void increaseAmount(User user, int amountToAddOrSubtract);
 }
