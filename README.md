@@ -4,7 +4,7 @@
 
 Маппинг: {{url/users/}}
 
-Реализованы следующие запросы: GET, PUT, POST
+Реализованы следующие запросы: GET, PUT, POST, DELETE
 
 Пользователи хранятся в базе данных PostgreSQL через Spring Data JPA.
 
