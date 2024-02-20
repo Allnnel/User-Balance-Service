@@ -1,92 +1,106 @@
 package com.example.model;
 
-import javax.persistence.*;
 import java.io.Serializable;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "user", schema = "server")
 public class User implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    @Column(name = "login", nullable = false)
-    private String login;
-    @Column(name = "passwordHash", nullable = false)
-    private String passwordHash;
-    @Column(name = "email", nullable = false)
-    private String email;
-    @Column(name = "birthDay", nullable = true)
-    private  String birthDay;
-    @Column(name = "mobilePhone", nullable = true)
-    private String mobilePhone;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private long id;
 
-    public User() {
-    }
+  @Column(name = "login", nullable = false)
+  private String login;
 
-    public User( String login, String passwordHash, String email, String birthDay, String mobilePhone) {
-        this.login = login;
-        this.passwordHash = passwordHash;
-        this.email = email;
-        this.birthDay = birthDay;
-        this.mobilePhone = mobilePhone;
-    }
-    public String getLogin() {
-        return login;
-    }
+  @Column(name = "passwordHash", nullable = false)
+  private String passwordHash;
 
-    public void setLogin(String login) {
-        this.login = login;
-    }
+  @Column(name = "email", nullable = false)
+  private String email;
 
-    public String getPasswordHash() {
-        return passwordHash;
-    }
+  @Column(name = "birthDay", nullable = true)
+  private String birthDay;
 
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
-    }
+  @Column(name = "mobilePhone", nullable = true)
+  private String mobilePhone;
 
-    public String getEmail() {
-        return email;
-    }
+  public User() {}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+  public User(
+      String login, String passwordHash, String email, String birthDay, String mobilePhone) {
+    this.login = login;
+    this.passwordHash = passwordHash;
+    this.email = email;
+    this.birthDay = birthDay;
+    this.mobilePhone = mobilePhone;
+  }
 
-    public String getBirthDay() {
-        return birthDay;
-    }
+  public String getLogin() {
+    return login;
+  }
 
-    public void setBirthDay(String birthDay) {
-        this.birthDay = birthDay;
-    }
+  public void setLogin(String login) {
+    this.login = login;
+  }
 
-    public String getMobilePhone() {
-        return mobilePhone;
-    }
+  public String getPasswordHash() {
+    return passwordHash;
+  }
 
-    public void setMobilePhone(String mobilePhone) {
-        this.mobilePhone = mobilePhone;
-    }
+  public void setPasswordHash(String passwordHash) {
+    this.passwordHash = passwordHash;
+  }
 
-    public long getId() {
-        return id;
-    }
+  public String getEmail() {
+    return email;
+  }
 
-    public void setId(long id) {
-        this.id = id;
-    }
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "login='" + login + '\'' +
-                ", passwordHash='" + passwordHash + '\'' +
-                ", email='" + email + '\'' +
-                ", birthDay=" + birthDay +
-                ", mobilePhone='" + mobilePhone + '\'' +
-                '}';
-    }
+  public String getBirthDay() {
+    return birthDay;
+  }
 
+  public void setBirthDay(String birthDay) {
+    this.birthDay = birthDay;
+  }
+
+  public String getMobilePhone() {
+    return mobilePhone;
+  }
+
+  public void setMobilePhone(String mobilePhone) {
+    this.mobilePhone = mobilePhone;
+  }
+
+  public long getId() {
+    return id;
+  }
+
+  public void setId(long id) {
+    this.id = id;
+  }
+
+  @Override
+  public String toString() {
+    return "User{"
+        + "login='"
+        + login
+        + '\''
+        + ", passwordHash='"
+        + passwordHash
+        + '\''
+        + ", email='"
+        + email
+        + '\''
+        + ", birthDay="
+        + birthDay
+        + ", mobilePhone='"
+        + mobilePhone
+        + '\''
+        + '}';
+  }
 }

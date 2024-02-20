@@ -1,4 +1,7 @@
 package com.example;
+
+import java.util.Objects;
+import java.util.Properties;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,9 +12,6 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
-import java.util.Objects;
-import java.util.Properties;
-
 @Configuration
 @EnableJpaRepositories("com.example.repository")
 @ComponentScan(basePackages = "com.example")
@@ -19,36 +19,32 @@ import java.util.Properties;
 @SpringBootApplication
 public class UserBalanceServiceApplication {
 
-    @Autowired
-    private Environment environment;
+  @Autowired private Environment environment;
 
-    @Bean
-    @Primary
-    public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(Objects.requireNonNull(environment.getProperty("db.driver.name")));
-        dataSource.setUrl(environment.getProperty("db.url"));
-        dataSource.setUsername(environment.getProperty("db.user"));
-        dataSource.setPassword(environment.getProperty("db.password"));
-        return dataSource;
-    }
+  @Bean
+  @Primary
+  public DataSource dataSource() {
+    DriverManagerDataSource dataSource = new DriverManagerDataSource();
+    dataSource.setDriverClassName(
+        Objects.requireNonNull(environment.getProperty("db.driver.name")));
+    dataSource.setUrl(environment.getProperty("db.url"));
+    dataSource.setUsername(environment.getProperty("db.user"));
+    dataSource.setPassword(environment.getProperty("db.password"));
+    return dataSource;
+  }
 
-    @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
-        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(dataSource);
-        em.setPackagesToScan("com.example");
-        em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+  @Bean
+  public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
+    LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+    em.setDataSource(dataSource);
+    em.setPackagesToScan("com.example");
+    em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 
+    Properties properties = new Properties();
+    properties.setProperty("hibernate.hbm2ddl.auto", "drop");
+    properties.setProperty("hibernate.hbm2ddl.auto", "create");
+    em.setJpaProperties(properties);
 
-        Properties properties = new Properties();
-        properties.setProperty("hibernate.hbm2ddl.auto", "drop");
-        properties.setProperty("hibernate.hbm2ddl.auto", "create");
-        em.setJpaProperties(properties);
-
-        return em;
-    }
-
-
-
+    return em;
+  }
 }

@@ -1,73 +1,72 @@
 package com.example.model;
 
-import javax.persistence.*;
 import com.example.exception.InsufficientBalanceException;
+import javax.persistence.*;
+
 @Entity
 @Table(name = "balance", schema = "server")
 public class Balance {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private long id;
 
-    @Column(name = "amount", nullable = false)
-    private double amount;
+  @Column(name = "amount", nullable = false)
+  private double amount;
 
-    @ManyToOne
-    @JoinColumn(name = "userLogin", referencedColumnName = "login", nullable = false)
-    private User user;
+  @ManyToOne
+  @JoinColumn(name = "userLogin", referencedColumnName = "login", nullable = false)
+  private User user;
 
-    public Balance(User user, double amount) {
-        this.user = user;
-        this.amount = amount;
-    }
-    public Balance(User user) {
-        this.user = user;
-        this.amount = 0.0;
-    }
-    public Balance() {
-    }
+  public Balance(User user, double amount) {
+    this.user = user;
+    this.amount = amount;
+  }
 
-    public void increaseAmount(double value) {
-        this.amount += value;
-    }
+  public Balance(User user) {
+    this.user = user;
+    this.amount = 0.0;
+  }
 
-    public void decreaseAmount(double value) {
-        if (this.amount >= value) {
-            this.amount -= value;
-        } else {
-            throw new InsufficientBalanceException();
-        }
-    }
-    public long getId() {
-        return id;
-    }
+  public Balance() {}
 
-    public void setId(long id) {
-        this.id = id;
-    }
+  public void increaseAmount(double value) {
+    this.amount += value;
+  }
 
-    public double getAmount() {
-        return amount;
+  public void decreaseAmount(double value) {
+    if (this.amount >= value) {
+      this.amount -= value;
+    } else {
+      throw new InsufficientBalanceException();
     }
+  }
 
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
+  public long getId() {
+    return id;
+  }
 
-    public User getUser() {
-        return user;
-    }
+  public void setId(long id) {
+    this.id = id;
+  }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+  public double getAmount() {
+    return amount;
+  }
 
-    @Override
-    public String toString() {
-        return "Balance{" +
-                "id=" + id +
-                ", amount=" + amount +
-                ", user=" + user +
-                '}';
-    }
+  public void setAmount(double amount) {
+    this.amount = amount;
+  }
+
+  public User getUser() {
+    return user;
+  }
+
+  public void setUser(User user) {
+    this.user = user;
+  }
+
+  @Override
+  public String toString() {
+    return "Balance{" + "id=" + id + ", amount=" + amount + ", user=" + user + '}';
+  }
 }

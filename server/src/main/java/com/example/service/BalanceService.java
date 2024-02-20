@@ -1,22 +1,23 @@
 package com.example.service;
 
 import com.example.model.Balance;
-
 import java.util.List;
 
-public interface BalanceService  {
+public interface BalanceService {
 
-    void save(Balance balance);
-    void delete(Balance balance);
+  void save(Balance balance);
 
-    Balance findById(long id);
+  void delete(Balance balance);
 
-    Balance findByUserLogin(String login);
+  Balance findById(long id);
 
-    void deleteById(long id);
+  Balance findByUserLogin(String login);
 
-    void deleteByUserLogin(String login);
+  void deleteById(long id);
 
-    List<Balance> getAllBalances();
-    void update(Balance balance);
+  void deleteByUserLogin(String login);
+
+  List<Balance> getAllBalances();
+
+  void update(Balance balance);
 }
