@@ -21,7 +21,9 @@ import org.springframework.transaction.annotation.Transactional;
 @AutoConfigureMockMvc
 public class ControllerTest {
   @Autowired private MockMvc mockMvc;
+
   @Autowired private UserRepository userRepository;
+
   @Autowired private BalanceRepository balanceRepository;
 
   // ------------------- POST ------------------------------------
@@ -34,10 +36,10 @@ public class ControllerTest {
     user.setEmail("user@example.com");
     user.setBirthDay("1990-05-15");
     user.setMobilePhone("123-456-7890");
-    // Преобразование объекта User в JSON
+
     ObjectMapper objectMapper = new ObjectMapper();
     String userRequestBody = objectMapper.writeValueAsString(user);
-    // Отправка POST-запроса для сохранения пользователя
+
     mockMvc
         .perform(
             MockMvcRequestBuilders.post("/users")
@@ -47,7 +49,7 @@ public class ControllerTest {
         .andExpect(MockMvcResultMatchers.jsonPath("$.status").value("Success"))
         .andExpect(MockMvcResultMatchers.jsonPath("$.code").value("200"))
         .andExpect(MockMvcResultMatchers.jsonPath("$.balance.login").value("example_user"));
-    // Получаем сохраненного пользователя из базы данных
+
     User savedUser = userRepository.findByLogin("example_user").get();
     Balance balance = new Balance(savedUser, 300);
     String balanceRequestBody = objectMapper.writeValueAsString(balance);
@@ -60,10 +62,10 @@ public class ControllerTest {
         .andExpect(MockMvcResultMatchers.jsonPath("$.status").value("Success"))
         .andExpect(MockMvcResultMatchers.jsonPath("$.code").value("200"))
         .andExpect(MockMvcResultMatchers.jsonPath("$.balance.user.login").value("example_user"));
+
     User user5 = userRepository.findByLogin("example_user").get();
     user5.setEmail("5555555");
-    ObjectMapper objectMapper4 = new ObjectMapper();
-    String requestBody = objectMapper4.writeValueAsString(user5);
+    String requestBody = objectMapper.writeValueAsString(user5);
     mockMvc
         .perform(
             MockMvcRequestBuilders.put("/users")
@@ -88,7 +90,6 @@ public class ControllerTest {
     ObjectMapper objectMapper = new ObjectMapper();
     String userRequestBody = objectMapper.writeValueAsString(user);
 
-    // Отправка PUT-запроса для сохранения пользователя
     mockMvc
         .perform(
             MockMvcRequestBuilders.put("/users")
@@ -147,10 +148,10 @@ public class ControllerTest {
     user.setEmail("user@example.com");
     user.setBirthDay("1990-05-15");
     user.setMobilePhone("123-456-7890");
-    // Преобразование объекта User в JSON
+
     ObjectMapper objectMapper = new ObjectMapper();
     String userRequestBody = objectMapper.writeValueAsString(user);
-    // Отправка POST-запроса для сохранения пользователя
+
     mockMvc
         .perform(
             MockMvcRequestBuilders.post("/users")
