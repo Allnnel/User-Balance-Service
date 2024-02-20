@@ -1,7 +1,6 @@
 package com.example;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
@@ -41,10 +40,10 @@ public class UserBalanceServiceApplication {
         em.setPackagesToScan("com.example");
         em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 
-        // Установка свойства для автоматического создания и удаления схемы базы данных
+
         Properties properties = new Properties();
         properties.setProperty("hibernate.hbm2ddl.auto", "drop");
-        properties.setProperty("hibernate.hbm2ddl.auto", "create"); // Используем create-drop
+        properties.setProperty("hibernate.hbm2ddl.auto", "create");
         em.setJpaProperties(properties);
 
         return em;

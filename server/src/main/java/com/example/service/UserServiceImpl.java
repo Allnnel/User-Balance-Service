@@ -11,8 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-import static java.lang.System.out;
-
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
@@ -91,9 +89,5 @@ public class UserServiceImpl implements UserService {
             userRepository.save(user);
         }
     }
-
-
-
-
 
 }

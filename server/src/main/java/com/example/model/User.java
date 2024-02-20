@@ -2,8 +2,6 @@ package com.example.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Table(name = "user", schema = "server")

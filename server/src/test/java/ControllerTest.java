@@ -5,14 +5,10 @@ import com.example.model.User;
 import com.example.repository.BalanceRepository;
 import com.example.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.json.JSONObject;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -21,16 +17,12 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.PrintStream;
-import java.time.LocalDate;
 
-import static java.lang.Thread.sleep;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = UserBalanceServiceApplication.class)
 @AutoConfigureMockMvc
 public class ControllerTest {
-
     @Autowired
     private MockMvc mockMvc;
     @Autowired
@@ -38,27 +30,7 @@ public class ControllerTest {
     @Autowired
     private BalanceRepository balanceRepository;
 
-
-    // ------------------- GET ------------------------------------
-    @Test
-    public void testGetBalancesPage() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/balances"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("balancesPage"));
-    }
-
-    @Test
-    public void testGetUsersPage() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/users"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("usersPage"));
-    }
-
-
-
     // ------------------- POST ------------------------------------
-
-
 
     @Test
     public void testPostUser() throws Exception {
@@ -144,8 +116,20 @@ public class ControllerTest {
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/users"));
     }
 
+    // ------------------- GET ------------------------------------
+    @Test
+    public void testGetBalancesPage() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/balances"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name("balancesPage"));
+    }
 
-
+    @Test
+    public void testGetUsersPage() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/users"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name("usersPage"));
+    }
 
 
 }

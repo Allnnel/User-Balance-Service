@@ -2,8 +2,6 @@ package com.example.model;
 
 import javax.persistence.*;
 import com.example.exception.InsufficientBalanceException;
-
-
 @Entity
 @Table(name = "balance", schema = "server")
 public class Balance {
@@ -18,25 +16,21 @@ public class Balance {
     @JoinColumn(name = "userLogin", referencedColumnName = "login", nullable = false)
     private User user;
 
-    public Balance(User user) {
-        this.user = user;
-        this.amount = 0.0;
-    }
-
-    public Balance() {
-        // конструктор без параметров
-    }
     public Balance(User user, double amount) {
         this.user = user;
         this.amount = amount;
     }
+    public Balance(User user) {
+        this.user = user;
+        this.amount = 0.0;
+    }
+    public Balance() {
+    }
 
-    // увелечение баланса
     public void increaseAmount(double value) {
         this.amount += value;
     }
 
-    // уменьшение баланса
     public void decreaseAmount(double value) {
         if (this.amount >= value) {
             this.amount -= value;
