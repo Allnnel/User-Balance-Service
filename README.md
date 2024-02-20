@@ -62,15 +62,15 @@ RESTful API для обмена данными между клиентами и 
 
 # Структура:
 
-- `src/main/java/com/example/controller`: Этот пакет содержит классы контроллеров, которые обрабатывают HTTP-запросы от клиентов.
-- `src/main/java/com/example/model`: Этот пакет содержит классы, представляющие модели данных, такие как пользователи и балансы.
-- `src/main/java/com/example/repository`: Этот пакет содержит интерфейсы репозиториев для взаимодействия с базой данных.
-- `src/main/java/com/example/response`: Этот пакет представляет шаблоны ответа для взаимодействия с клиентами. 
-- `src/main/java/com/example/service`: Этот пакет содержит сервисы, которые реализуют бизнес-логику приложения.
-- `src/main/java/com/example/exception`:Этот пакет содержит классы исключений, которые могут быть выброшены в случае ошибок.
-- `src/main/java/com/example/UserBalanceServiceApplication.java`: Это основной класс Spring Boot, который запускает приложение.
-- `src/main/resources/application.properties`: Файл настроек приложения, включая конфигурацию базы данных.
-- `src/main/resources/db/migration`: Здесь содержатся скрипты миграции базы данных для создания таблиц и структуры данных.
+- `src/main/java/com/example/controller`: классы контроллеров, которые обрабатывают HTTP-запросы от клиентов.
+- `src/main/java/com/example/model`: классы, представляющие модели данных, такие как пользователи и балансы.
+- `src/main/java/com/example/repository`: интерфейсы репозиториев для взаимодействия с базой данных.
+- `src/main/java/com/example/response`: классы шаблонов ответа для взаимодействия с клиентами. 
+- `src/main/java/com/example/service`: сервисы, которые реализуют бизнес-логику приложения.
+- `src/main/java/com/example/exception`: классы исключений, которые могут быть выброшены в случае ошибок.
+- `src/main/java/com/example/UserBalanceServiceApplication.java`: основной класс Spring Boot, который запускает приложение.
+- `src/main/resources/application.properties`: файл настроек приложения, включая конфигурацию базы данных.
+- `src/main/resources/db/migration`: скрипты миграции базы данных для создания таблиц и структуры данных.
 
 `pom.xml` является файлом конфигурации Maven, который содержит зависимости и настройки проекта.
 
