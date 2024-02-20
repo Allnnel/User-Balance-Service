@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 @Repository
-@Component("balanceRepository")
 public interface BalanceRepository extends JpaRepository<Balance, Long> {
   Optional<Balance> findByUser_Login(String login);
 
