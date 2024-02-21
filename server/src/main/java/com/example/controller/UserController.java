@@ -27,20 +27,19 @@ public class UserController {
    * Метод контроллера для обработки GET-запроса по адресу "/users". Получает список пользователей
    * из сервиса и передает его в представление.
    *
-   * @param model объект Model, предоставляемый Spring MVC для передачи данных в представление.
    * @return Ответ в формате JSON, содержащий статус операции, код состояния и объект баланса.
    */
   @GetMapping("/users")
-  public ResponseEntity<String> getUsersPage(Model model) {
+  public ResponseEntity<ResponseMessage> getUsersPage() {
     List<User> users = userService.getAllUsers();
     if (users.isEmpty()) {
       ResponseMessage response = new ResponseMessage("Failed", "500", null);
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response.toJSON());
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
-    model.addAttribute("balances", users);
-    ResponseMessage response = new ResponseMessage("Success", "200", model);
-    return ResponseEntity.status(HttpStatus.CREATED).body(response.toJSON());
+    ResponseMessage response = new ResponseMessage("Success", "200", users);
+    return ResponseEntity.status(HttpStatus.OK).body(response);
   }
+
 
   /**
    * Метод контроллера для обработки POST-запроса по адресу "/users". Этот метод принимает данные
@@ -51,16 +50,17 @@ public class UserController {
    * @return Ответ в формате JSON, содержащий статус операции, код состояния и объект баланса.
    */
   @PostMapping("/users")
-  public ResponseEntity<String> postUsersPage(@RequestBody User user) {
+  public ResponseEntity<ResponseMessage> postUsersPage(@RequestBody User user) {
     try {
       userService.save(user);
     } catch (DuplicateUserException e) {
       ResponseMessage response = new ResponseMessage("Failed", "500", null);
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response.toJSON());
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
     ResponseMessage response = new ResponseMessage("Success", "200", user);
-    return ResponseEntity.status(HttpStatus.CREATED).body(response.toJSON());
+    return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
+
 
   /**
    * Метод контроллера для обновления данных пользователя по адресу "/users".
@@ -69,10 +69,10 @@ public class UserController {
    * @return Ответ в формате JSON, содержащий статус операции, код состояния и объект баланса.
    */
   @PutMapping("/users")
-  public ResponseEntity<String> putUsersPage(@RequestBody User user) {
+  public ResponseEntity<ResponseMessage> putUsersPage(@RequestBody User user) {
     userService.update(user);
     ResponseMessage response = new ResponseMessage("Success", "200", user);
-    return ResponseEntity.status(HttpStatus.CREATED).body(response.toJSON());
+    return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 
   /**
@@ -84,14 +84,14 @@ public class UserController {
    * @return Ответ в формате JSON, содержащий статус операции, код состояния и логин удаленного пользователя.
    */
   @DeleteMapping("/users/{login}")
-  public ResponseEntity<String> deleteUsersPage(@PathVariable String login) {
+  public ResponseEntity<ResponseMessage> deleteUsersPage(@PathVariable String login) {
     try {
       userService.deleteByLogin(login);
     } catch (UserNotFoundException e) {
       ResponseMessage response = new ResponseMessage("Failed", "500", null);
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response.toJSON());
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
     ResponseMessage response = new ResponseMessage("Success", "200", login);
-    return ResponseEntity.status(HttpStatus.CREATED).body(response.toJSON());
+    return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
 }

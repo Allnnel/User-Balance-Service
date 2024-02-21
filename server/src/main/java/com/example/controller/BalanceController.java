@@ -32,15 +32,15 @@ public class BalanceController {
    * @return Ответ в формате JSON, содержащий статус операции, код состояния и объект баланса.
    */
   @GetMapping("/balances")
-  public ResponseEntity<String> getUsersPage(Model model) {
+  public ResponseEntity<ResponseMessage> getUsersPage(Model model) {
     List<Balance> balances = balanceService.getAllBalances();
     if (balances.isEmpty()) {
       ResponseMessage response = new ResponseMessage("Failed", "500", null);
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response.toJSON());
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
     model.addAttribute("balances", balances);
     ResponseMessage response = new ResponseMessage("Success", "200", model);
-    return ResponseEntity.status(HttpStatus.CREATED).body(response.toJSON());
+    return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
 
   /**
@@ -51,15 +51,15 @@ public class BalanceController {
    * @return Ответ в формате JSON, содержащий статус операции, код состояния и объект баланса.
    */
   @PostMapping("/balances")
-  public ResponseEntity<String> postUsersPage(@RequestBody Balance balance) {
+  public ResponseEntity<ResponseMessage> postUsersPage(@RequestBody Balance balance) {
     try {
       balanceService.save(balance);
     } catch (DuplicateBalanceException e) {
       ResponseMessage response = new ResponseMessage("Failed", "500", null);
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response.toJSON());
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
     ResponseMessage response = new ResponseMessage("Success", "200", balance);
-    return ResponseEntity.status(HttpStatus.CREATED).body(response.toJSON());
+    return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
 
   /**
@@ -70,10 +70,10 @@ public class BalanceController {
    * @return Ответ в формате JSON, содержащий статус операции, код состояния и объект баланса.
    */
   @PutMapping("/balances")
-  public ResponseEntity<String> putUsersPage(@RequestBody Balance balance) {
+  public ResponseEntity<ResponseMessage> putUsersPage(@RequestBody Balance balance) {
     balanceService.update(balance);
     ResponseMessage response = new ResponseMessage("Success", "200", balance);
-    return ResponseEntity.status(HttpStatus.CREATED).body(response.toJSON());
+    return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
 
   /**
@@ -85,14 +85,14 @@ public class BalanceController {
    * @return Ответ в формате JSON, содержащий статус операции, код состояния и логин удаленного пользователя.
    */
   @DeleteMapping("/balances/{userLogin}")
-  public ResponseEntity<String> deleteUsersPage(@PathVariable String userLogin) {
+  public ResponseEntity<ResponseMessage> deleteUsersPage(@PathVariable String userLogin) {
     try {
       balanceService.deleteByUserLogin(userLogin);
     } catch (BalanceNotFoundException e) {
       ResponseMessage response = new ResponseMessage("Failed", "500", null);
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response.toJSON());
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
     ResponseMessage response = new ResponseMessage("Success", "200", userLogin);
-    return ResponseEntity.status(HttpStatus.CREATED).body(response.toJSON());
+    return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
 }

@@ -15,10 +15,10 @@ public class ResponseMessage {
   @JsonProperty("object")
   private Object object;
 
-  public ResponseMessage(String status, String code, Object balance) {
+  public ResponseMessage(String status, String code, Object object) {
     this.status = status;
     this.code = code;
-    this.object = balance;
+    this.object = object;
   }
 
   public String getStatus() {
@@ -45,13 +45,4 @@ public class ResponseMessage {
     this.object = balance;
   }
 
-  public String toJSON() {
-    try {
-      ObjectMapper mapper = new ObjectMapper();
-      return mapper.writeValueAsString(this);
-    } catch (Exception e) {
-      e.printStackTrace();
-      return null;
-    }
-  }
 }
