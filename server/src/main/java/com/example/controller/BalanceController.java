@@ -32,14 +32,13 @@ public class BalanceController {
    * @return Ответ в формате JSON, содержащий статус операции, код состояния и объект баланса.
    */
   @GetMapping("/balances")
-  public ResponseEntity<ResponseMessage> getUsersPage(Model model) {
+  public ResponseEntity<ResponseMessage> getUsersPage() {
     List<Balance> balances = balanceService.getAllBalances();
     if (balances.isEmpty()) {
       ResponseMessage response = new ResponseMessage("Failed", "500", null);
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
-    model.addAttribute("balances", balances);
-    ResponseMessage response = new ResponseMessage("Success", "200", model);
+    ResponseMessage response = new ResponseMessage("Success", "200", balances);
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
 
