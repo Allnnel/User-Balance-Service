@@ -12,13 +12,13 @@ public class ResponseMessage {
   @JsonProperty("code")
   private String code;
 
-  @JsonProperty("balance")
-  private Object balance;
+  @JsonProperty("object")
+  private Object object;
 
   public ResponseMessage(String status, String code, Object balance) {
     this.status = status;
     this.code = code;
-    this.balance = balance;
+    this.object = balance;
   }
 
   public String getStatus() {
@@ -38,11 +38,11 @@ public class ResponseMessage {
   }
 
   public Object getBalance() {
-    return balance;
+    return object;
   }
 
   public void setBalance(Object balance) {
-    this.balance = balance;
+    this.object = balance;
   }
 
   public String toJSON() {
