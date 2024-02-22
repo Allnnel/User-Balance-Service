@@ -19,10 +19,10 @@ public class User implements Serializable {
   @Column(name = "email", nullable = false)
   private String email;
 
-  @Column(name = "birthDay", nullable = true)
+  @Column(name = "birthDay", nullable = false)
   private String birthDay;
 
-  @Column(name = "mobilePhone", nullable = true)
+  @Column(name = "mobilePhone", nullable = false)
   private String mobilePhone;
 
   public User() {}
