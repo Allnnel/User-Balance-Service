@@ -37,12 +37,11 @@ public class ResponseMessage {
     this.code = code;
   }
 
-  public Object getBalance() {
+  public Object getObject() {
     return object;
   }
 
-  public void setBalance(Object balance) {
-    this.object = balance;
+  public void setObject(Object object) {
+    this.object = object;
   }
-
 }
