@@ -13,7 +13,7 @@ public class Balance {
   @Column(name = "amount", nullable = false)
   private double amount;
 
-  @ManyToOne(fetch = FetchType.EAGER)
+  @OneToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "userLogin", referencedColumnName = "login", nullable = false)
   private User user;
 
