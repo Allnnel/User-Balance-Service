@@ -2,7 +2,6 @@ package com.example.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ResponseMessage {
@@ -12,13 +11,15 @@ public class ResponseMessage {
   @JsonProperty("code")
   private String code;
 
-  @JsonProperty("object")
-  private Object object;
+  @JsonProperty("message")
+  private String message;
 
-  public ResponseMessage(String status, String code, Object object) {
+
+
+  public ResponseMessage(String status, String message, String code) {
     this.status = status;
     this.code = code;
-    this.object = object;
+    this.message = message;
   }
 
   public String getStatus() {
@@ -37,11 +38,11 @@ public class ResponseMessage {
     this.code = code;
   }
 
-  public Object getObject() {
-    return object;
+  public String getMessage() {
+    return message;
   }
 
-  public void setObject(Object object) {
-    this.object = object;
+  public void setMessage(String message) {
+    this.message = message;
   }
 }

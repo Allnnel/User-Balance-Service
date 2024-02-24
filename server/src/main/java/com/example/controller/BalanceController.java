@@ -1,8 +1,8 @@
 package com.example.controller;
 
-import com.example.exception.BalanceNotFoundException;
-import com.example.exception.DuplicateBalanceException;
+import com.example.exception.CustomException;
 import com.example.model.Balance;
+import com.example.response.BalanceResponseMessage;
 import com.example.response.ResponseMessage;
 import com.example.service.BalanceService;
 import java.util.List;
@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -23,74 +22,50 @@ public class BalanceController {
     this.balanceService = balanceService;
   }
 
-  /**
-   * Метод для отображения страницы с балансами пользователей. Получает список всех балансов с
-   * помощью сервиса и добавляет его в модель, затем возвращает имя представления для отображения
-   * страницы балансов.
-   *
-   * @return Ответ в формате JSON, содержащий статус операции, код состояния и объект баланса.
-   */
   @GetMapping("/balances")
   public ResponseEntity<ResponseMessage> getUsersPage() {
     List<Balance> balances = balanceService.getAllBalances();
     if (balances.isEmpty()) {
-      ResponseMessage response = new ResponseMessage("Failed", "500", null);
+      ResponseMessage response = new BalanceResponseMessage("Failed", "The table is empty.","500", null);
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
-    ResponseMessage response = new ResponseMessage("Success", "200", balances);
+    ResponseMessage response = new BalanceResponseMessage("Success", null,"200", balances);
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
 
-  /**
-   * Метод для обработки запроса на добавление нового баланса пользователя. Принимает объект баланса
-   * в качестве параметра, сохраняет его с помощью сервиса и возвращает ответ в формате JSON.
-   *
-   * @param balance Объект баланса для сохранения.
-   * @return Ответ в формате JSON, содержащий статус операции, код состояния и объект баланса.
-   */
   @PostMapping("/balances")
   public ResponseEntity<ResponseMessage> postUsersPage(@RequestBody Balance balance) {
     try {
       balanceService.save(balance);
-    } catch (DuplicateBalanceException e) {
-      ResponseMessage response = new ResponseMessage("Failed", "500", null);
+    } catch (CustomException e) {
+      ResponseMessage response = new BalanceResponseMessage("Failed", e.getMessage(),"500", null);
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
-    ResponseMessage response = new ResponseMessage("Success", "200", balance);
+    ResponseMessage response = new BalanceResponseMessage("Success", null,"200", balance);
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
 
-  /**
-   * Метод для обработки запроса на обновление баланса пользователя. Принимает объект баланса в
-   * качестве параметра, обновляет его с помощью сервиса и перенаправляет на страницу с балансами.
-   *
-   * @param balance Объект баланса для обновления.
-   * @return Ответ в формате JSON, содержащий статус операции, код состояния и объект баланса.
-   */
   @PutMapping("/balances")
   public ResponseEntity<ResponseMessage> putUsersPage(@RequestBody Balance balance) {
-    balanceService.update(balance);
-    ResponseMessage response = new ResponseMessage("Success", "200", balance);
+    try {
+      balanceService.update(balance);
+    } catch (CustomException e) {
+      ResponseMessage response = new BalanceResponseMessage("Failed", e.getMessage(), "500", null);
+      return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+    ResponseMessage response = new BalanceResponseMessage("Success", null, "200", balance);
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
 
-  /**
-   * Метод для обработки запроса на удаление баланса пользователя по логину. Принимает логин
-   * пользователя в качестве параметра, передает его сервису для выполнения операции удаления и
-   * перенаправляет на страницу с балансами.
-   *
-   * @param userLogin Логин пользователя, чей баланс нужно удалить.
-   * @return Ответ в формате JSON, содержащий статус операции, код состояния и логин удаленного пользователя.
-   */
-  @DeleteMapping("/balances/{userLogin}")
-  public ResponseEntity<ResponseMessage> deleteUsersPage(@PathVariable String userLogin) {
+  @DeleteMapping("/balances")
+  public ResponseEntity<ResponseMessage> deleteUsersPage(@RequestBody Balance balance) {
     try {
-      balanceService.deleteByUserLogin(userLogin);
-    } catch (BalanceNotFoundException e) {
-      ResponseMessage response = new ResponseMessage("Failed", "500", null);
+      balanceService.delete(balance);
+    } catch (CustomException e) {
+      ResponseMessage response = new BalanceResponseMessage("Failed", e.getMessage(), "500", null);
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
-    ResponseMessage response = new ResponseMessage("Success", "200", userLogin);
+    ResponseMessage response = new BalanceResponseMessage("Success", null,"200", balance);
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
 }

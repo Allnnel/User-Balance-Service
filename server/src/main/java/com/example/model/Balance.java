@@ -1,6 +1,7 @@
 package com.example.model;
 
-import com.example.exception.InsufficientBalanceException;
+import com.example.exception.CustomException;
+
 import javax.persistence.*;
 
 @Entity
@@ -13,17 +14,17 @@ public class Balance {
   @Column(name = "amount", nullable = false)
   private double amount;
 
-  @OneToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "userLogin", referencedColumnName = "login", nullable = false)
-  private User user;
+//  @OneToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "userLogin", nullable = false)
+  private String userLogin;
 
-  public Balance(User user, double amount) {
-    this.user = user;
+  public Balance(String userLogin, double amount) {
+    this.userLogin = userLogin;
     this.amount = amount;
   }
 
-  public Balance(User user) {
-    this.user = user;
+  public Balance(String userLogin) {
+    this.userLogin = userLogin;
     this.amount = 0.0;
   }
 
@@ -33,11 +34,11 @@ public class Balance {
     this.amount += value;
   }
 
-  public void decreaseAmount(double value) {
+  public void decreaseAmount(double value) throws CustomException {
     if (this.amount >= value) {
       this.amount -= value;
     } else {
-      throw new InsufficientBalanceException();
+      throw new CustomException("Insufficient balance.", 5);
     }
   }
 
@@ -57,16 +58,17 @@ public class Balance {
     this.amount = amount;
   }
 
-  public User getUser() {
-    return user;
+
+  public String getUserLogin() {
+    return userLogin;
   }
 
-  public void setUser(User user) {
-    this.user = user;
+  public void setUserLogin(String userLogin) {
+    this.userLogin = userLogin;
   }
 
   @Override
   public String toString() {
-    return "Balance{" + "id=" + id + ", amount=" + amount + ", user=" + user + '}';
+    return "Balance{" + "id=" + id + ", amount=" + amount + ", userLogin=" + userLogin + '}';
   }
 }

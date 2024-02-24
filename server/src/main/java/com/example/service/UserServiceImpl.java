@@ -1,8 +1,9 @@
 package com.example.service;
 
-import com.example.exception.DuplicateUserException;
-import com.example.exception.UserNotFoundException;
+import com.example.exception.CustomException;
+import com.example.model.Balance;
 import com.example.model.User;
+import com.example.repository.BalanceRepository;
 import com.example.repository.UserRepository;
 import java.util.List;
 import java.util.Optional;
@@ -15,54 +16,58 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserServiceImpl implements UserService {
 
   private final UserRepository userRepository;
+  private final BalanceRepository balanceRepository;
 
   @Autowired
-  public UserServiceImpl(UserRepository userRepository) {
+  public UserServiceImpl(UserRepository userRepository, BalanceRepository balanceRepository) {
     this.userRepository = userRepository;
+    this.balanceRepository = balanceRepository;
   }
 
   @Override
-  public void save(User user) throws DuplicateUserException {
+  public void save(User user) throws CustomException {
     if (userRepository.findByLogin(user.getLogin()).isPresent()) {
-      throw new DuplicateUserException();
+      throw new CustomException("User already exists.", 3);
     }
     userRepository.save(user);
   }
 
   @Override
-  public User findByLogin(String login) throws UserNotFoundException {
+  public User findByLogin(String login) throws CustomException {
     Optional<User> user = userRepository.findByLogin(login);
     if (!user.isPresent()) {
-      throw new UserNotFoundException();
+      throw new CustomException("User not found.", 4);
     }
     return user.get();
   }
 
   @Override
-  public User findById(long id) throws UserNotFoundException {
+  public User findById(long id) throws CustomException {
     Optional<User> user = userRepository.findById(id);
     if (!user.isPresent()) {
-      throw new UserNotFoundException();
+      throw new CustomException("User not found.", 4);
     }
     return user.get();
   }
 
   @Override
-  public void deleteByLogin(String login) throws UserNotFoundException {
-    findByLogin(login);
-    userRepository.deleteByLogin(login);
+  public void deleteByLogin(String login) throws CustomException {
+    User deleteUser = findByLogin(login);
+    userRepository.delete(deleteUser);
   }
 
   @Override
-  public void deleteById(long id) throws UserNotFoundException {
-    findById(id);
-    userRepository.deleteById(id);
+  public void deleteById(long id) throws CustomException {
+    User deleteUser = findById(id);
+    userRepository.delete(deleteUser);
   }
 
   @Override
-  public void delete(User user) throws UserNotFoundException {
-    findById(user.getId());
-    userRepository.deleteById(user.getId());
+  public void delete(User user) throws CustomException {
+    User deleteUser = findByLogin(user.getLogin());
+    userRepository.delete(deleteUser);
+    Optional<Balance> balance = balanceRepository.findByUserLogin(user.getLogin());
+    balance.ifPresent(balanceRepository::delete);
   }
 
   @Override

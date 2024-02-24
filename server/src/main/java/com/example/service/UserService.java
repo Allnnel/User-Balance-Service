@@ -1,22 +1,21 @@
 package com.example.service;
 
-import com.example.exception.DuplicateUserException;
-import com.example.exception.UserNotFoundException;
+import com.example.exception.CustomException;
 import com.example.model.User;
 import java.util.List;
 
 public interface UserService {
-  void save(User user) throws DuplicateUserException;
+  void save(User user) throws CustomException;
 
-  User findById(long id) throws UserNotFoundException;
+  User findById(long id) throws CustomException;
 
-  User findByLogin(String login) throws UserNotFoundException;
+  User findByLogin(String login) throws CustomException;
 
-  void deleteByLogin(String login) throws UserNotFoundException;
+  void deleteByLogin(String login) throws CustomException;
 
-  void deleteById(long id) throws UserNotFoundException;
+  void deleteById(long id) throws CustomException;
 
-  void delete(User user) throws UserNotFoundException;
+  void delete(User user) throws CustomException;
 
   List<User> getAllUsers();
 
