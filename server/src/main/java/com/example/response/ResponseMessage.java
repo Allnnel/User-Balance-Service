@@ -14,8 +14,6 @@ public class ResponseMessage {
   @JsonProperty("message")
   private String message;
 
-
-
   public ResponseMessage(String status, String message, String code) {
     this.status = status;
     this.code = code;

@@ -12,9 +12,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class BalanceServiceImpl implements BalanceService {
   private final BalanceRepository balanceRepository;
-  private final  UserService userService;
+  private final UserService userService;
+
   @Autowired
-  public BalanceServiceImpl(BalanceRepository balanceRepository,  UserService userService) {
+  public BalanceServiceImpl(BalanceRepository balanceRepository, UserService userService) {
     this.balanceRepository = balanceRepository;
     this.userService = userService;
   }
@@ -22,7 +23,8 @@ public class BalanceServiceImpl implements BalanceService {
   @Override
   public void save(Balance userBalance) throws CustomException {
     userService.findByLogin(userBalance.getUserLogin());
-    Optional<Balance> optionalBalance = balanceRepository.findByUserLogin(userBalance.getUserLogin());
+    Optional<Balance> optionalBalance =
+        balanceRepository.findByUserLogin(userBalance.getUserLogin());
     if (optionalBalance.isPresent()) {
       throw new CustomException("Balance already exists.", 1);
     }
@@ -35,7 +37,6 @@ public class BalanceServiceImpl implements BalanceService {
     return balanceOptional.orElseThrow(() -> new CustomException("Balance not found.", 2));
   }
 
-
   @Override
   public Balance findByUserLogin(String login) throws CustomException {
     Optional<Balance> balances = balanceRepository.findByUserLogin(login);
@@ -45,10 +46,9 @@ public class BalanceServiceImpl implements BalanceService {
     return balances.get();
   }
 
-
   @Override
   public void delete(Balance balance) throws CustomException {
-    Balance deleteBalance =  findByUserLogin(balance.getUserLogin());
+    Balance deleteBalance = findByUserLogin(balance.getUserLogin());
     balanceRepository.delete(deleteBalance);
   }
 

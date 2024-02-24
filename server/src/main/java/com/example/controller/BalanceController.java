@@ -26,10 +26,11 @@ public class BalanceController {
   public ResponseEntity<ResponseMessage> getUsersPage() {
     List<Balance> balances = balanceService.getAllBalances();
     if (balances.isEmpty()) {
-      ResponseMessage response = new BalanceResponseMessage("Failed", "The table is empty.","500", null);
+      ResponseMessage response =
+          new BalanceResponseMessage("Failed", "The table is empty.", "500", null);
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
-    ResponseMessage response = new BalanceResponseMessage("Success", null,"200", balances);
+    ResponseMessage response = new BalanceResponseMessage("Success", null, "200", balances);
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
 
@@ -38,10 +39,10 @@ public class BalanceController {
     try {
       balanceService.save(balance);
     } catch (CustomException e) {
-      ResponseMessage response = new BalanceResponseMessage("Failed", e.getMessage(),"500", null);
+      ResponseMessage response = new BalanceResponseMessage("Failed", e.getMessage(), "500", null);
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
-    ResponseMessage response = new BalanceResponseMessage("Success", null,"200", balance);
+    ResponseMessage response = new BalanceResponseMessage("Success", null, "200", balance);
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
 
@@ -65,7 +66,7 @@ public class BalanceController {
       ResponseMessage response = new BalanceResponseMessage("Failed", e.getMessage(), "500", null);
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
-    ResponseMessage response = new BalanceResponseMessage("Success", null,"200", balance);
+    ResponseMessage response = new BalanceResponseMessage("Success", null, "200", balance);
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
 }

@@ -1,10 +1,9 @@
 package com.example;
 
-import java.util.Properties;
-import javax.sql.DataSource;
-
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import java.util.Properties;
+import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,6 +11,7 @@ import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+
 @SpringBootApplication
 public class UserBalanceServiceApplication {
 
@@ -19,8 +19,7 @@ public class UserBalanceServiceApplication {
     SpringApplication.run(UserBalanceServiceApplication.class, args);
   }
 
-  @Autowired
-  private Environment environment;
+  @Autowired private Environment environment;
 
   @Bean
   public DataSource dataSource() {

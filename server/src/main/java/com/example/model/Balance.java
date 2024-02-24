@@ -1,7 +1,6 @@
 package com.example.model;
 
 import com.example.exception.CustomException;
-
 import javax.persistence.*;
 
 @Entity
@@ -14,7 +13,7 @@ public class Balance {
   @Column(name = "amount", nullable = false)
   private double amount;
 
-//  @OneToOne(fetch = FetchType.EAGER)
+  //  @OneToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "userLogin", nullable = false)
   private String userLogin;
 
@@ -57,7 +56,6 @@ public class Balance {
   public void setAmount(double amount) {
     this.amount = amount;
   }
-
 
   public String getUserLogin() {
     return userLogin;
