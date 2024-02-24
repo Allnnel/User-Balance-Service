@@ -13,7 +13,6 @@ public class Balance {
   @Column(name = "amount", nullable = false)
   private double amount;
 
-
   @JoinColumn(name = "userLogin", nullable = false)
   private String userLogin;
 
