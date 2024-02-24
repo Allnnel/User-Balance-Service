@@ -13,7 +13,7 @@ public class Balance {
   @Column(name = "amount", nullable = false)
   private double amount;
 
-  //  @OneToOne(fetch = FetchType.EAGER)
+
   @JoinColumn(name = "userLogin", nullable = false)
   private String userLogin;
 
