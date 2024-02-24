@@ -62,7 +62,6 @@ RESTful API: обеспечивает гибкое и масштабируемо
 - `src/main/java/com/example/service`: сервисы, которые реализуют бизнес-логику приложения.
 - `src/main/java/com/example/exception`: классы исключений, которые могут быть выброшены в случае ошибок.
 - `src/main/java/com/example/UserBalanceServiceApplication.java`: основной класс Spring Boot, который запускает приложение.
-- `src/main/resources/application.properties`: файл настроек приложения, включая конфигурацию базы данных.
 - `src/main/resources/db/migration`: скрипты миграции базы данных для создания таблиц и структуры данных.
 
 `pom.xml` является файлом конфигурации Maven, который содержит зависимости и настройки проекта.
