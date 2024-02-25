@@ -13,8 +13,7 @@ import java.util.Date;
 public class UserResponseMessage extends ResponseMessage {
   @JsonIgnore
   private Object user;
-  @JsonProperty("id")
-  private long id;
+
   @JsonProperty("login")
   private String login;
   @JsonProperty("email")
@@ -28,7 +27,6 @@ public class UserResponseMessage extends ResponseMessage {
     super(status, message, code);
     this.user = user;
     User userObject = (User) user;
-    id = userObject.getId();
     birthDay = userObject.getBirthDay();
     email = userObject.getEmail();
     login = userObject.getLogin();
