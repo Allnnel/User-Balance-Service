@@ -1,7 +1,9 @@
 package com.example.model;
 
+
 import java.io.Serializable;
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "user", schema = "server")
@@ -20,7 +22,7 @@ public class User implements Serializable {
   private String email;
 
   @Column(name = "birthDay", nullable = false)
-  private String birthDay;
+  private Date birthDay;
 
   @Column(name = "mobilePhone", nullable = false)
   private String mobilePhone;
@@ -28,7 +30,7 @@ public class User implements Serializable {
   public User() {}
 
   public User(
-      String login, String passwordHash, String email, String birthDay, String mobilePhone) {
+      String login, String passwordHash, String email, Date birthDay, String mobilePhone) {
     this.login = login;
     this.passwordHash = passwordHash;
     this.email = email;
@@ -60,11 +62,11 @@ public class User implements Serializable {
     this.email = email;
   }
 
-  public String getBirthDay() {
+  public Date getBirthDay() {
     return birthDay;
   }
 
-  public void setBirthDay(String birthDay) {
+  public void setBirthDay(Date birthDay) {
     this.birthDay = birthDay;
   }
 

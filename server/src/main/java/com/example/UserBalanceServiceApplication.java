@@ -38,7 +38,7 @@ public class UserBalanceServiceApplication {
     em.setPackagesToScan("com.example");
 
     Properties properties = new Properties();
-    properties.setProperty("hibernate.hbm2ddl.auto", "create");
+    properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
     properties.setProperty("hibernate.show_sql", "true");
     em.setJpaProperties(properties);
 
