@@ -52,7 +52,7 @@ public class BalanceController {
       balanceService.update(balance);
     } catch (CustomException e) {
       ResponseMessage response = new BalanceResponseMessage("Failed", e.getMessage(), "500", null);
-      return ResponseEntity.status(HttpStatus.CREATED).body(response);
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
     ResponseMessage response = new BalanceResponseMessage("Success", null, "200", balance);
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
