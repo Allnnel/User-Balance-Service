@@ -1,9 +1,8 @@
 package com.example.model;
 
-
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.Date;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "user", schema = "server")
@@ -29,8 +28,7 @@ public class User implements Serializable {
 
   public User() {}
 
-  public User(
-      String login, String passwordHash, String email, Date birthDay, String mobilePhone) {
+  public User(String login, String passwordHash, String email, Date birthDay, String mobilePhone) {
     this.login = login;
     this.passwordHash = passwordHash;
     this.email = email;
